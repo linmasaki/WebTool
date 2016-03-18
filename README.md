@@ -49,3 +49,42 @@ image = image.Resize(width, height, ImageTool.ResizeMode.Normal);
 
 Add watermark text to image:
 
+
+## Other Extra Kit
+### Snapshoter Web Host By Url
+
+使用此工具首先必須先在Web專案下加入 Awesomium 相關套件
+
+    Awesomium.Core.dll (Core assembly)
+    Awesomium.Core.XML (XML Documentation used by VS IntelliSense)
+    avcodec-53.dll
+    avformat-53.dll
+    avutil-51.dll
+    awesomium.dll
+    awesomium_process
+    icudt.dll
+    libEGL.dll
+    libGLESv2.dll
+    xinput9_1_0.dll
+    inspector.pak (Awesomium Inspector assets)
+	pdf_js.pak
+
+接著需在Web專案下的 Global.asax 裡加入以下程式碼
+
+Global.asax:
+```C#
+void Application_Start(object sender, EventArgs e)
+{
+	// 在應用程式啟動時執行的程式碼
+    Thread awesomiumThread = new Thread(Snapshoter.AwesomiumThread);
+    awesomiumThread.Start();
+
+    // Wait for the WebCore to start.
+    while (!Snapshoter.webCoreStarted)
+    	Thread.Sleep(10);
+}
+```
+
+使用方式請參考
+/WebTool.Web/Ajax/SnapshoterHandler.ashx
+/WebTool.Web/App_Code/Snapshoter.cs

@@ -2,6 +2,7 @@
 
 * Google Tool 
 * Common Tool
+* Other Extra Kit
 * ...
 
 
@@ -49,6 +50,20 @@ image = image.Resize(width, height, ImageTool.ResizeMode.Normal);
 
 Add watermark text to image:
 
+### File Tool
+
+List files by target directory:
+```C#
+using WebTool.Common;
+
+//Resize target image
+List<string> fileList = FileTool.ListFiles((string)dirPath, (bool)showSub, (bool)showHidden);
+```
+* 參數解說:<br/>
+ dirPath : 目標目錄路徑<br/>
+ showSub : 是否包含子目錄下的檔案 &nbsp; (default:true)<br/>
+ showHidden : 是否包含隱藏檔案 &nbsp; (default:true)<br/>
+
 
 ## Other Extra Kit
 ### Snapshoter Web Host By Url
@@ -88,5 +103,5 @@ void Application_Start(object sender, EventArgs e)
 使用方式請參考<br>
 /WebTool.Web/Ajax/SnapshoterHandler.ashx<br>
 /WebTool.Web/App_Code/Snapshoter.cs<br><br>
-來源: http://www.awesomium.com/
+Awesomium套件及參考來源: http://www.awesomium.com/
 

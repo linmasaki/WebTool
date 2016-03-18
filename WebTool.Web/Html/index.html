@@ -4,11 +4,29 @@
     <title>Demo</title>
     <link href="/Content/bootstrap.css" rel="stylesheet" />
     <style type="text/css">
-        .btnUploadImage {
-            
+        /* table */
+        table {
+            max-width: 100%;
+            margin: 10px auto;
+        }
+
+        table > thead > tr.tableizer-firstrow > th {
+            padding: 10px;
+            background: lavenderblush;
+        }
+
+        div.container-fluid.inner > table > tbody > tr > td {
+            border: 4px solid #fff;
+            width: 170px;
+            padding: 10px;
+            background: #f8f8f8 none repeat scroll 0 0;
+        }
+
+        .no-close .ui-dialog-titlebar-close {
+            display: none;
         }
     </style>
-
+    <link href="/Content/themes/base/all.css" rel="stylesheet" />
     <script src="/Scripts/jquery-2.1.4.js"></script>
     <script src="/Scripts/jquery-ui-1.11.4.js"></script>
     <script src="/Scripts/bootstrap.js"></script>
@@ -17,60 +35,93 @@
 
     <div class="page-header">
         <h1>
-            Demo Index
+            WebTool Demo
         </h1>
     </div>
+    <div id="Tabs">
+        <ul>
+            <li><a href="#Tabs-1">轉短網址</a></li>
+            <li><a href="#Tabs-2">網頁快照</a></li>
+            <li><a href="#Tabs-3">圖片轉換工具</a></li>
+            <li><a href="#Tabs-4">檔案操作工具</a></li>
+        </ul>
+    
+        <!-- Convert Url to ShortUrl -->
+        <div id="Tabs-1">
+            <input id="SourceUrl" type="text" style="width: 600px;"/>
+            <button type="button" id="BtnShortener">轉短網址</button><br><br>
+            短網址：<a id="ShortUrlLink" href="" target="_blank"><span id="ShortUrl" style="color: blue"></span></a>
+        </div>
+    
+        <!-- SnapShoter Web by Url -->
+        <div id="Tabs-2">
+            <input id="TargetUrl" type="text" style="width: 600px;" />
+            <button type="button" id="BtnShoter">開始截圖</button><br><br>
+            <img src="" alt="請輸入網址並按下截圖按鈕">
+        </div>
+    
+        <!-- Image Transform Feature -->
+        <div id="Tabs-3">
+            <div>
+                寬：<input id="ImageWidth" type="text" value="300" style="width: 50px;"/> ※ 高：<input id="ImageHeight" type="text" value="300" style="width: 50px;"/><br><br>
+                X：<input id="StartX" type="text" value="0" style="width: 50px;"/> Y：<input id="StartY" type="text" value="0" style="width: 50px;"/><br><br>
+                壓縮比例(越高圖片品質越高)：<input id="ImageQuality" type="text" value="80" style="width: 30px;"/>%
+            </div>
+            <br>
+            <div>
+                <img src="" alt="請上傳圖片"/>
+                <button type="button" class="btnUploadImage" data-mode="1">上傳圖片(等比例縮放)</button>
+            </div>
+            <br>
+            <div>
+                <img src="" alt="請上傳圖片"/>
+                <button type="button" class="btnUploadImage" data-mode="2">上傳圖片(延展效果)</button>
+            </div>
+            <br>
+            <div>
+                <img src="" alt="請上傳圖片"/>
+                <button type="button" class="btnUploadImage" data-mode="3">上傳圖片(剪裁)</button>
+            </div>
+            <br>
+            <div>
+                <img src="" alt="請上傳圖片"/>
+                <button type="button" class="btnUploadImage" data-mode="4">上傳圖片(不足以空白補足)</button>
+            </div>
+            <br>
+            <div>
+                <img src="" alt="請上傳圖片"/>
+                <button type="button" class="btnUploadImage" data-mode="5">上傳圖片(指定位置及寬高)</button>
+            </div>
+            <br>
+            <div>
+                <img src="" alt="請上傳圖片"/>
+                <button type="button" class="btnUploadImage" data-mode="6">壓縮圖片</button>
+            </div>
+        </div>
 
-    <div>
-        <input id="SourceUrl" type="text" style="width: 600px;" />
-        <button type="button" id="BtnShortener">轉短網址</button><br>
-        短網址：<a id="ShortUrlLink" href="" target="_blank"><span id="ShortUrl"></span></a>
-    </div>
-    <br>
-    <div>
-        <input id="TargetUrl" type="text" style="width: 600px;" />
-        <button type="button" id="BtnShoter">開始截圖</button><br>
-        <img src="" alt="請輸入網址並按下截圖按鈕">
-    </div>
-    <br>
-    <div>
-        寬：<input id="ImageWidth" type="text" value="300" style="width: 50px;" /> ※ 高：<input id="ImageHeight" type="text" value="300" style="width: 50px;" /><br>  
-        X：<input id="StartX" type="text" value="0" style="width: 50px;" />  Y：<input id="StartY" type="text" value="0" style="width: 50px;" /><br> 
-        壓縮比例(越高圖片品質越高)：<input id="ImageQuality" type="text" value="80" style="width: 30px;" />%
-    </div>
-    <br>
-    <div>
-        <img src="" alt="請上傳圖片"/>
-        <button type="button" class="btnUploadImage" data-mode="1">上傳圖片(等比例縮放)</button>
-    </div>
-    <br>
-    <div>
-        <img src="" alt="請上傳圖片" />
-        <button type="button" class="btnUploadImage" data-mode="2">上傳圖片(延展效果)</button>
-    </div>
-    <br>
-    <div>
-        <img src="" alt="請上傳圖片" />
-        <button type="button" class="btnUploadImage" data-mode="3">上傳圖片(剪裁)</button>
-    </div>
-    <br>
-    <div>
-        <img src="" alt="請上傳圖片" />
-        <button type="button" class="btnUploadImage" data-mode="4">上傳圖片(不足以空白補足)</button>
-    </div>
-    <br>
-    <div>
-        <img src="" alt="請上傳圖片" />
-        <button type="button" class="btnUploadImage" data-mode="5">上傳圖片(指定位置及寬高)</button>
-    </div>
-    <br>
-    <div>
-        <img src="" alt="請上傳圖片" />
-        <button type="button" class="btnUploadImage" data-mode="6">壓縮圖片</button>
+        <!-- File Tools -->
+        <div id="Tabs-4">
+            <input id="DirectoryPath" type="text" style="width: 600px;" value="/Image"/><br>
+            <input type="radio" name="IncludeSub" value="true" checked> 包含子目錄
+            <input type="radio" name="IncludeSub" value="false"> 不包含子目錄<br><br>
+            <input type="radio" name="HiddenFile" value="true" checked> 包含隱藏檔
+            <input type="radio" name="HiddenFile" value="false"> 不包含隱藏檔<br><br>
+            <button type="button" id="BtnListFile">列出指定目錄下檔案清單</button><br><br>
+            <div class="container-fluid inner">
+                <table>
+                    <thead><tr class="tableizer-firstrow"><th>檔名</th></tr></thead>
+                    <tbody id="FileList"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 
     <script type="text/javascript">
+
+        $(document).ready(function(e) {
+            $("#Tabs").tabs();
+        });
 
         $(document).on('click', '#BtnShortener', function (e) {
             $.ajax({
@@ -145,6 +196,35 @@
                     }
                 });
             }).trigger('click');
+        });
+
+        //Filelist 
+        $(document).on('click', '#BtnListFile', function (e) {
+            var path = $('#DirectoryPath').val();
+            var hasSub = $('input[name="IncludeSub"]:checked').val();
+            var isHidden = $('input[name="HiddenFile"]:checked').val();
+
+            $.ajax({
+                url: '/Ajax/FileHandler.ashx',
+                data: { path: path, sub: hasSub, hidden: isHidden },
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data && data.ok) {
+                        $("#FileList").empty();
+                        for (var i=0; i< data.result.length; i++) {
+                            $("#FileList").append('<tr><td>' + data.result[i] + '</td></tr>');
+                        }
+                    } else if (data && data.msg) {
+                        alert(data.msg);
+                    } else {
+                        alert('伺服器錯誤，請聯絡系統工程師!');
+                    }
+                },
+                error: function (errorData) {
+                    alert('網路傳輸錯誤，請聯絡系統工程師!');
+                }
+            });
         });
     </script>
 </body>

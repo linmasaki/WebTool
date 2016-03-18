@@ -23,8 +23,13 @@ public class SnapshoterHandler : IHttpHandler {
         }
 
         url = HttpUtility.UrlDecode(url);
-        var fileName = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(url)).TrimEnd('=');
+        var fileName = Convert.ToBase64String(Encoding.UTF8.GetBytes(url)).TrimEnd('=');
 
+        if (!Directory.Exists(context.Server.MapPath("~/Image")))
+        {
+            Directory.CreateDirectory(context.Server.MapPath("~/Image"));
+        }
+        
         var filePath = context.Server.MapPath(string.Format("~/Image/{0}.jpg", fileName));
         if (!File.Exists(filePath))
         {

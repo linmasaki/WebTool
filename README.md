@@ -85,6 +85,8 @@ void Application_Start(object sender, EventArgs e)
 }
 ```
 
-使用方式請參考
-/WebTool.Web/Ajax/SnapshoterHandler.ashx
-/WebTool.Web/App_Code/Snapshoter.cs
+使用方式請參考<br>
+/WebTool.Web/Ajax/SnapshoterHandler.ashx<br>
+/WebTool.Web/App_Code/Snapshoter.cs<br><br>
+來源: http://www.awesomium.com/
+

@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <style type="text/css">
+        .btnUploadImage {
+            
+        }
+    </style>
+
+    <script src="/Scripts/jquery-2.1.4.js"></script>
+    <script src="/Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>
+            Demo Index
+        </h1>
+    </div>
+
+    <div>
+        <input id="SourceUrl" type="text" style="width: 600px;" />
+        <button type="button" id="BtnShortener">轉短網址</button><br>
+        短網址：<a id="ShortUrlLink" href="" target="_blank"><span id="ShortUrl"></span></a>
+    </div>
+    <br>
+    <div>
+        <input id="TargetUrl" type="text" style="width: 600px;" />
+        <button type="button" id="BtnShoter">開始截圖</button><br>
+        <img src="" alt="請輸入網址並按下截圖按鈕">
+    </div>
+    <br>
+    <div>
+        寬：<input id="ImageWidth" type="text" value="300" style="width: 50px;" /> ※ 高：<input id="ImageHeight" type="text" value="300" style="width: 50px;" /><br>  
+        X：<input id="StartX" type="text" value="0" style="width: 50px;" />  Y：<input id="StartY" type="text" value="0" style="width: 50px;" /><br> 
+        壓縮比例(越高圖片品質越高)：<input id="ImageQuality" type="text" value="80" style="width: 30px;" />%
+    </div>
+    <br>
+    <div>
+        <img src="" alt="請上傳圖片"/>
+        <button type="button" class="btnUploadImage" data-mode="1">上傳圖片(等比例縮放)</button>
+    </div>
+    <br>
+    <div>
+        <img src="" alt="請上傳圖片" />
+        <button type="button" class="btnUploadImage" data-mode="2">上傳圖片(延展效果)</button>
+    </div>
+    <br>
+    <div>
+        <img src="" alt="請上傳圖片" />
+        <button type="button" class="btnUploadImage" data-mode="3">上傳圖片(剪裁)</button>
+    </div>
+    <br>
+    <div>
+        <img src="" alt="請上傳圖片" />
+        <button type="button" class="btnUploadImage" data-mode="4">上傳圖片(不足以空白補足)</button>
+    </div>
+    <br>
+    <div>
+        <img src="" alt="請上傳圖片" />
+        <button type="button" class="btnUploadImage" data-mode="5">上傳圖片(指定位置及寬高)</button>
+    </div>
+    <br>
+    <div>
+        <img src="" alt="請上傳圖片" />
+        <button type="button" class="btnUploadImage" data-mode="6">壓縮圖片</button>
+    </div>
+
+
+    <script type="text/javascript">
+
+        $(document).on('click', '#BtnShortener', function (e) {
+            $.ajax({
+                url: '/Ajax/ShortenerHandler.ashx',
+                data: { url: $('#SourceUrl').val() },
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data && data.ok) {
+                        $('#ShortUrlLink').attr('href', data.msg);
+                        $('#ShortUrl').text(data.msg);
+                    } else if (data && data.msg) {
+                        alert(data.msg);
+                    } else {
+                        alert('伺服器錯誤，請聯絡系統工程師!');
+                    }
+                },
+                error: function (errorData) {
+                    alert('網路傳輸錯誤，請聯絡系統工程師!');
+                }
+            });
+        });
+
+        //Snapshoter
+        $(document).on('click', '#BtnShoter', function (e) {
+            $(this).parent().find('img').attr('src', '/Ajax/SnapshoterHandler.ashx?url=' + encodeURIComponent($('#TargetUrl').val()));
+        });
+
+        //ImageTool
+        $(document).on('click', '.btnUploadImage', function (e) {
+            var that = this;
+
+            $('<input type="file" accept="image/*" />').on('change', function (e) {
+
+                // Getting the properties of file from file field
+                var fileData = $(this).prop("files")[0];
+
+                // Creating object of FormData class
+                var formData = new window.FormData();
+
+                // Appending parameter named file with properties of file_field to form_data
+                formData.append("file", fileData);
+
+                // Add other information
+                formData.append("path", "/Image/");
+                formData.append("mode", $(that).attr('data-mode'));
+                formData.append("width", $('#ImageWidth').val());
+                formData.append("height", $('#ImageHeight').val());
+                formData.append("x", $('#StartX').val());
+                formData.append("y", $('#StartY').val());
+                formData.append("quality", $('#ImageQuality').val());
+
+                $.ajax({
+                    url: '/Ajax/ImageHandler.ashx',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data && data.ok) {
+                            $(that).parent().find('img').attr('src', "/Image/" + data.msg + "?t=" + (new Date()).getTime());
+                        } else if (data && data.msg) {
+                            alert(data.msg);
+                        } else {
+                            alert('伺服器錯誤，請聯絡系統工程師!');
+                        }
+                    },
+                    error: function (errorData) {
+                        alert('網路傳輸錯誤，請聯絡系統工程師!');
+                    }
+                });
+            }).trigger('click');
+        });
+    </script>
+</body>
+</html>

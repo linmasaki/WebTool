@@ -105,3 +105,25 @@ void Application_Start(object sender, EventArgs e)
 /WebTool.Web/App_Code/Snapshoter.cs<br><br>
 Awesomium套件及參考來源: http://www.awesomium.com/
 
+### Amazon S3 Storage Tool
+
+使用此工具首先必須先從NUGET安裝AWSSDK, 接著再web.config 或 app.config 裡加入以下片段
+```  
+  <configSections>
+    <section name="aws" type="Amazon.AWSSection, AWSSDK"/>
+  </configSections>
+  <aws profileName="developer" region="ap-northeast-1" profilesLocation="D:\credentials" />
+```
+credentials檔案內容格式如下<br>
+```  
+[default]
+aws_access_key_id = AKIAIXX123J6LYYRC5SW
+aws_secret_access_key = uYFH6FNkP0tyuJJp9fAxxxxx0.......
+[developer]
+aws_access_key_id = AKIAIXX123J6LYYRC5F1
+aws_secret_access_key = uYFH6FNkP0tyuJJp9fAxxxxx1.......
+```
+使用方式請參考<br>
+/WebTool.Web/Ajax/Amazon/<br>
+/WebTool.Web/App_Code/Amazon/S3StorageTool<br><br>
+Amazon套件設定<a href="http://docs.aws.amazon.com/zh_cn/AWSSdkDocsNET/V3/DeveloperGuide/net-dg-programming-techniques.html" target="_blank">參考</a>

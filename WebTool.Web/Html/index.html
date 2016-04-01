@@ -44,64 +44,65 @@
             <li><a href="#Tabs-2">網頁快照</a></li>
             <li><a href="#Tabs-3">圖片轉換工具</a></li>
             <li><a href="#Tabs-4">檔案操作工具</a></li>
+            <li><a href="#Tabs-5">Amazon S3 storage相關</a></li>
         </ul>
-    
+
         <!-- Convert Url to ShortUrl -->
         <div id="Tabs-1">
-            <input id="SourceUrl" type="text" style="width: 600px;"/>
+            <input id="SourceUrl" type="text" style="width: 600px;" />
             <button type="button" id="BtnShortener">轉短網址</button><br><br>
             短網址：<a id="ShortUrlLink" href="" target="_blank"><span id="ShortUrl" style="color: blue"></span></a>
         </div>
-    
+
         <!-- SnapShoter Web by Url -->
         <div id="Tabs-2">
             <input id="TargetUrl" type="text" style="width: 600px;" />
             <button type="button" id="BtnShoter">開始截圖</button><br><br>
             <img src="" alt="請輸入網址並按下截圖按鈕">
         </div>
-    
+
         <!-- Image Transform Feature -->
         <div id="Tabs-3">
             <div>
-                寬：<input id="ImageWidth" type="text" value="300" style="width: 50px;"/> ※ 高：<input id="ImageHeight" type="text" value="300" style="width: 50px;"/><br><br>
-                X：<input id="StartX" type="text" value="0" style="width: 50px;"/> Y：<input id="StartY" type="text" value="0" style="width: 50px;"/><br><br>
-                壓縮比例(越高圖片品質越高)：<input id="ImageQuality" type="text" value="80" style="width: 30px;"/>%
+                寬：<input id="ImageWidth" type="text" value="300" style="width: 50px;" /> ※ 高：<input id="ImageHeight" type="text" value="300" style="width: 50px;" /><br><br>
+                X：<input id="StartX" type="text" value="0" style="width: 50px;" /> Y：<input id="StartY" type="text" value="0" style="width: 50px;" /><br><br>
+                壓縮比例(越高圖片品質越高)：<input id="ImageQuality" type="text" value="80" style="width: 30px;" />%
             </div>
             <br>
             <div>
-                <img src="" alt="請上傳圖片"/>
+                <img src="" alt="請上傳圖片" />
                 <button type="button" class="btnUploadImage" data-mode="1">上傳圖片(等比例縮放)</button>
             </div>
             <br>
             <div>
-                <img src="" alt="請上傳圖片"/>
+                <img src="" alt="請上傳圖片" />
                 <button type="button" class="btnUploadImage" data-mode="2">上傳圖片(延展效果)</button>
             </div>
             <br>
             <div>
-                <img src="" alt="請上傳圖片"/>
+                <img src="" alt="請上傳圖片" />
                 <button type="button" class="btnUploadImage" data-mode="3">上傳圖片(剪裁)</button>
             </div>
             <br>
             <div>
-                <img src="" alt="請上傳圖片"/>
+                <img src="" alt="請上傳圖片" />
                 <button type="button" class="btnUploadImage" data-mode="4">上傳圖片(不足以空白補足)</button>
             </div>
             <br>
             <div>
-                <img src="" alt="請上傳圖片"/>
+                <img src="" alt="請上傳圖片" />
                 <button type="button" class="btnUploadImage" data-mode="5">上傳圖片(指定位置及寬高)</button>
             </div>
             <br>
             <div>
-                <img src="" alt="請上傳圖片"/>
+                <img src="" alt="請上傳圖片" />
                 <button type="button" class="btnUploadImage" data-mode="6">壓縮圖片</button>
             </div>
         </div>
 
         <!-- File Tools -->
         <div id="Tabs-4">
-            <input id="DirectoryPath" type="text" style="width: 600px;" value="/Image"/><br>
+            <input id="DirectoryPath" type="text" style="width: 600px;" value="/Image" /><br>
             <input type="radio" name="IncludeSub" value="true" checked> 包含子目錄
             <input type="radio" name="IncludeSub" value="false"> 不包含子目錄<br><br>
             <input type="radio" name="HiddenFile" value="true" checked> 包含隱藏檔
@@ -114,12 +115,24 @@
                 </table>
             </div>
         </div>
+
+        <!-- Amazon S3 Storage -->
+        <div id="Tabs-5">
+            Bucket：<input id="BucketName" type="text" value="video-av88" style="width: 200px;" /> &nbsp; &nbsp; 路徑：<input id="S3Path" type="text" value="" style="width: 250px;" />(Ex: Xxxx/xxxx/...) &nbsp; &nbsp; 副檔名：<input id="S3Ext" type="text" value=".txt" style="width: 50px;" /><br><br>
+            <button type="button" id="BtnListS3Bucket">列出S3 Bucket 清單</button><br>
+            <button type="button" id="BtnListS3BucketRoot">列出指定 Bucket 根目錄下的檔案清單</button><br>
+            <button type="button" id="BtnListS3File">列出指定 Bucket 下指定路徑的檔案清單</button><br>
+            <button type="button" id="BtnListS3ExtFile">列出指定 Bucket 之符合指定副檔名的檔案清單</button><br>
+            <div>
+                <ul id="S3List"></ul>
+            </div>
+        </div>
     </div>
 
 
     <script type="text/javascript">
 
-        $(document).ready(function(e) {
+        $(document).ready(function (e) {
             $("#Tabs").tabs();
         });
 
@@ -198,7 +211,7 @@
             }).trigger('click');
         });
 
-        //Filelist 
+        //Filelist
         $(document).on('click', '#BtnListFile', function (e) {
             var path = $('#DirectoryPath').val();
             var hasSub = $('input[name="IncludeSub"]:checked').val();
@@ -212,7 +225,7 @@
                 success: function (data) {
                     if (data && data.ok) {
                         $("#FileList").empty();
-                        for (var i=0; i< data.result.length; i++) {
+                        for (var i = 0; i < data.result.length; i++) {
                             $("#FileList").append('<tr><td>' + data.result[i] + '</td></tr>');
                         }
                     } else if (data && data.msg) {
@@ -226,6 +239,116 @@
                 }
             });
         });
+
+        //S3 Bucket List
+        $(document).on('click', '#BtnListS3Bucket', function (e) {
+
+            $.ajax({
+                url: '/Ajax/Amazon/GetS3BucketList.ashx',
+                data: {},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data && data.ok) {
+                        $('#S3List').empty();
+                        for (var i = 0; i < data.result.length; i++) {
+                            $('#S3List').append('<li>' + data.result[i] + '</li>');
+                        }
+                    } else if (data && data.msg) {
+                        alert(data.msg);
+                    } else {
+                        alert('伺服器錯誤，請聯絡系統工程師!');
+                    }
+                },
+                error: function (errorData) {
+                    alert('網路傳輸錯誤，請聯絡系統工程師!');
+                }
+            });
+        });
+
+        //S3 Bucket Root List
+        $(document).on('click', '#BtnListS3BucketRoot', function (e) {
+            var bucket = $('#BucketName').val();
+
+            $.ajax({
+                url: '/Ajax/Amazon/GetS3BucketRootList.ashx',
+                data: { buk: bucket},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data && data.ok) {
+                        $('#S3List').empty();
+                        for (var i = 0; i < data.result.length; i++) {
+                            $('#S3List').append('<li>' + data.result[i] + '</li>');
+                        }
+                    } else if (data && data.msg) {
+                        alert(data.msg);
+                    } else {
+                        alert('伺服器錯誤，請聯絡系統工程師!');
+                    }
+                },
+                error: function (errorData) {
+                    alert('網路傳輸錯誤，請聯絡系統工程師!');
+                }
+            });
+        });
+
+        //S3 Bucket File List
+        $(document).on('click', '#BtnListS3File', function (e) {
+            var bucket = $('#BucketName').val();
+            var path = $('#S3Path').val();
+
+            $.ajax({
+                url: '/Ajax/Amazon/GetS3FileList.ashx',
+                data: { buk: bucket, path:path },
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data && data.ok) {
+                        $('#S3List').empty();
+                        for (var i = 0; i < data.result.length; i++) {
+                            $('#S3List').append('<li>' + data.result[i] + '</li>');
+                        }
+                    } else if (data && data.msg) {
+                        alert(data.msg);
+                    } else {
+                        alert('伺服器錯誤，請聯絡系統工程師!');
+                    }
+                },
+                error: function (errorData) {
+                    alert('網路傳輸錯誤，請聯絡系統工程師!');
+                }
+            });
+        });
+
+        //S3 Direct Extension File List
+        $(document).on('click', '#BtnListS3ExtFile', function (e) {
+            var bucket = $('#BucketName').val();
+            var ext = $('#S3Ext').val();
+
+            $.ajax({
+                url: '/Ajax/Amazon/GetS3ExtFileList.ashx',
+                data: {buk: bucket, ext:ext},
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data && data.ok) {
+                        $('#S3List').empty();
+                        for (var i = 0; i < data.result.length; i++) {
+                            $('#S3List').append('<li>' + data.result[i] + '</li>');
+                        }
+                    } else if (data && data.msg) {
+                        alert(data.msg);
+                    } else {
+                        alert('伺服器錯誤，請聯絡系統工程師!');
+                    }
+                },
+                error: function (errorData) {
+                    alert('網路傳輸錯誤，請聯絡系統工程師!');
+                }
+            });
+        });
+
     </script>
 </body>
 </html>

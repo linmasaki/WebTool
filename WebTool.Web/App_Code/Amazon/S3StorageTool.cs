@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -197,7 +198,24 @@ public class S3StorageTool
         return files;
     }
 
+    //取得檔案內容
+    public static string GetFileContent(string bucket, string path)
+    {
+        var credentials = new StoredProfileAWSCredentials("developer");
+        IAmazonS3 client = new AmazonS3Client(credentials);
 
+        GetObjectRequest request = new GetObjectRequest()
+        {
+            BucketName = bucket,
+            Key = path
+        };
+
+        using (GetObjectResponse response = client.GetObject(request))
+        {
+            StreamReader reader = new StreamReader(response.ResponseStream);
+            return reader.ReadToEnd();
+        }
+    }
 
 }
 

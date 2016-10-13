@@ -4,6 +4,13 @@
 * text=auto
 
 ###############################################################################
+WebTool.Web/Content/* linguist-vendored
+WebTool.Web/Scripts/* linguist-vendored
+WebTool.Web/Html/* linguist-vendored
+#jquery.js linguist-vendored=false
+###############################################################################
+
+###############################################################################
 # Set default behavior for command prompt diff.
 #
 # This is need for earlier builds of msysgit that does not have it on by

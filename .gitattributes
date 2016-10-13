@@ -8,6 +8,8 @@ WebTool.Web/Content/* linguist-vendored
 WebTool.Web/Scripts/* linguist-vendored
 WebTool.Web/Html/* linguist-vendored
 #jquery.js linguist-vendored=false
+#App_Code/* linguist-documentation
+#Something.cs linguist-documentation=false
 ###############################################################################
 
 ###############################################################################
